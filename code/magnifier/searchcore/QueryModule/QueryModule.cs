@@ -4,7 +4,10 @@ using System.Text;
 
 namespace SearchCore
 {
-    public class QueryModule
+    namespace Query
     {
+        public class QueryModule
+        {
+        }
     }
 }

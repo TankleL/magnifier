@@ -4,7 +4,11 @@ using System.Text;
 
 namespace SearchCore
 {
-    public class ContentProcessModule
+    namespace Index
     {
+        public class DocTable
+        {
+
+        }
     }
 }
