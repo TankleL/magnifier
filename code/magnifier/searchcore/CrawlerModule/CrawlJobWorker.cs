@@ -71,7 +71,11 @@ namespace SearchCore.Crawler
                     }
                 }
 
-                for(int i = 0; i < taskcount && !_abort; ++i)
+                for(int i = 0;
+                    i < taskcount &&
+                    i < MAX_TASK_SLOTS &&
+                    !_abort;
+                    ++i)
                 {
                     tasks[i].Execute(this, tasks[i]);
                 }

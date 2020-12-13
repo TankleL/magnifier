@@ -52,14 +52,19 @@ namespace SearchCore.Crawler
 
         private void ProcessFile(string path)
         {
-            if(Path.GetExtension(path) == ".txt")
-            {
+            if(IsPlaintextFile(path))
+            { // handle plaintext files
                 UInt32 docid = _st.GetNode_LoadBalanced<DocsManagement.DocsModule>(
                     ISearchTopologyNode.NodeType.DocsMgnmt)
                     .AddDocument(path);
                 _st.GetNode_LoadBalanced<Parser.ContentProcessModule>(ISearchTopologyNode.NodeType.Parser)
                     .ParsePlaintextFile(path, docid);
             }
+        }
+
+        private bool IsPlaintextFile(string path)
+        {
+            return path.EndsWith(".txt") || path.EndsWith(".cs");
         }
 
         private string _path;
