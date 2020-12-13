@@ -6,9 +6,32 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
+        <Grid Grid.Row="0">
+            <!-- Search Scope Bar -->
+            <StackPanel>
+                <Grid Height="50">
+                    <TextBlock Text="Query" FontSize="16" Width="50"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10"/>
+                    <TextBox Text="Hi" Height="35" HorizontalContentAlignment="Left" VerticalAlignment="Center" Margin="70,0,80,0" />
+                    <Button Content="Search" HorizontalAlignment="Right" Margin="10"/>
+                </Grid>
+                <Grid Height="50">
+                    <TextBlock Text="Scope" FontSize="16" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10"/>
+                    <TextBox Text="foo/bar/blablalba" Height="35" HorizontalContentAlignment="Left" VerticalAlignment="Center" Margin="70,0,80,0" />
+                    <Button Content="Browse" HorizontalAlignment="Right" Margin="10"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <!-- Search Results Section -->
+
+        </Grid>
     </Grid>
 </Page>

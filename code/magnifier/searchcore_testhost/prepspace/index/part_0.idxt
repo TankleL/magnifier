@@ -1,15 +1,8 @@
 Partition=0
-RecordCount=8
+RecordCount=9
 [Record]
 Keyword=The
 PosSetCount=5
-[PositionSet]
-PosCount=1
-[Position]
-DocID=1
-WordBeg=0
-WordEnd=3
-
 [PositionSet]
 PosCount=1
 [Position]
@@ -35,6 +28,13 @@ WordEnd=3
 PosCount=1
 [Position]
 DocID=5
+WordBeg=0
+WordEnd=3
+
+[PositionSet]
+PosCount=1
+[Position]
+DocID=6
 WordBeg=0
 WordEnd=3
 
@@ -45,13 +45,6 @@ PosSetCount=5
 [PositionSet]
 PosCount=1
 [Position]
-DocID=1
-WordBeg=4
-WordEnd=8
-
-[PositionSet]
-PosCount=1
-[Position]
 DocID=2
 WordBeg=4
 WordEnd=8
@@ -74,6 +67,13 @@ WordEnd=8
 PosCount=1
 [Position]
 DocID=5
+WordBeg=4
+WordEnd=8
+
+[PositionSet]
+PosCount=1
+[Position]
+DocID=6
 WordBeg=4
 WordEnd=8
 
@@ -84,13 +84,6 @@ PosSetCount=5
 [PositionSet]
 PosCount=1
 [Position]
-DocID=1
-WordBeg=9
-WordEnd=13
-
-[PositionSet]
-PosCount=1
-[Position]
 DocID=2
 WordBeg=9
 WordEnd=13
@@ -113,6 +106,13 @@ WordEnd=13
 PosCount=1
 [Position]
 DocID=5
+WordBeg=9
+WordEnd=13
+
+[PositionSet]
+PosCount=1
+[Position]
+DocID=6
 WordBeg=9
 WordEnd=13
 
@@ -123,7 +123,7 @@ PosSetCount=1
 [PositionSet]
 PosCount=1
 [Position]
-DocID=1
+DocID=2
 WordBeg=14
 WordEnd=16
 
@@ -134,13 +134,6 @@ PosSetCount=5
 [PositionSet]
 PosCount=1
 [Position]
-DocID=1
-WordBeg=19
-WordEnd=25
-
-[PositionSet]
-PosCount=1
-[Position]
 DocID=2
 WordBeg=19
 WordEnd=25
@@ -163,6 +156,13 @@ WordEnd=25
 PosCount=1
 [Position]
 DocID=5
+WordBeg=19
+WordEnd=25
+
+[PositionSet]
+PosCount=1
+[Position]
+DocID=6
 WordBeg=19
 WordEnd=25
 
@@ -173,7 +173,7 @@ PosSetCount=1
 [PositionSet]
 PosCount=1
 [Position]
-DocID=2
+DocID=3
 WordBeg=14
 WordEnd=16
 
@@ -184,25 +184,29 @@ PosSetCount=1
 [PositionSet]
 PosCount=1
 [Position]
-DocID=3
+DocID=4
 WordBeg=14
 WordEnd=16
 
 
 [Record]
 Keyword=b2
-PosSetCount=2
-[PositionSet]
-PosCount=1
-[Position]
-DocID=4
-WordBeg=14
-WordEnd=16
-
+PosSetCount=1
 [PositionSet]
 PosCount=1
 [Position]
 DocID=5
+WordBeg=14
+WordEnd=16
+
+
+[Record]
+Keyword=b3
+PosSetCount=1
+[PositionSet]
+PosCount=1
+[Position]
+DocID=6
 WordBeg=14
 WordEnd=16
 

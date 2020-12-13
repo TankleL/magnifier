@@ -13,9 +13,10 @@ namespace SearchCore.Crawler
 
     public sealed class LocalFileCrawlTask : CrawlTask
     {
-        public LocalFileCrawlTask(string path)
+        public LocalFileCrawlTask(string path, SearchTopology st)
         {
             _path = path;
+            _st = st;
             Execute = ExecuteLocalFileCrawl;
         }
 
@@ -32,17 +33,19 @@ namespace SearchCore.Crawler
                     DirectoryInfo di = new DirectoryInfo(_path);
                     foreach(var file in di.EnumerateFiles())
                     {
-                        worker.AddTask(new LocalFileCrawlTask(file.FullName));
+                        worker.AddTask(new LocalFileCrawlTask(file.FullName, _st));
                     }
 
                     foreach(var dir in di.EnumerateDirectories())
                     {
-                        worker.AddTask(new LocalFileCrawlTask(dir.FullName));
+                        worker.AddTask(new LocalFileCrawlTask(dir.FullName, _st));
                     }
                 }
             }
             catch
-            {}
+            {
+                throw;
+            }
 
             return true;
         }
@@ -51,10 +54,15 @@ namespace SearchCore.Crawler
         {
             if(Path.GetExtension(path) == ".txt")
             {
-                IngestPipeline.ParserModule.ParsePlaintextFile(path, ++IngestPipeline.TopDocID);
+                UInt32 docid = _st.GetNode_LoadBalanced<DocsManagement.DocsModule>(
+                    ISearchTopologyNode.NodeType.DocsMgnmt)
+                    .AddDocument(path);
+                _st.GetNode_LoadBalanced<Parser.ContentProcessModule>(ISearchTopologyNode.NodeType.Parser)
+                    .ParsePlaintextFile(path, docid);
             }
         }
 
         private string _path;
+        private SearchTopology _st;
     }
 }

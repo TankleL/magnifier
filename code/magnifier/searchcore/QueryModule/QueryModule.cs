@@ -6,8 +6,12 @@ namespace SearchCore
 {
     namespace Query
     {
-        public class QueryModule
+        public class QueryModule : ISearchTopologyNode
         {
+            public ISearchTopologyNode.NodeType GetNodeType()
+            {
+                return ISearchTopologyNode.NodeType.Query;
+            }
         }
     }
 }

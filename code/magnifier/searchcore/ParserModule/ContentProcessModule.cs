@@ -7,8 +7,18 @@ namespace SearchCore
 {
     namespace Parser
     {
-        public class ContentProcessModule
+        public class ContentProcessModule : ISearchTopologyNode
         {
+            public ContentProcessModule(SearchTopology topology)
+            {
+                _topology = topology;
+            }
+
+            public ISearchTopologyNode.NodeType GetNodeType()
+            {
+                return ISearchTopologyNode.NodeType.Parser;
+            }
+
             public void ParsePlaintextFile(string path, UInt32 docid)
             {
                 if(File.Exists(path))
@@ -38,13 +48,14 @@ namespace SearchCore
                             {
                                 selecting = false;
 
-                                IngestPipeline.IndexModule.Insert(
-                                    alltext.Substring(tbeg, tend - tbeg),
-                                    new Index.IndexDocPosition() {
-                                        DocID = docid,
-                                        WordBegPosition = (uint)tbeg,
-                                        WordEndPosition = (uint)tend
-                                    });
+                                _topology.GetNode_LoadBalanced<Index.IndexModule>(ISearchTopologyNode.NodeType.Index)
+                                    .Insert(
+                                        alltext.Substring(tbeg, tend - tbeg),
+                                        new Index.IndexDocPosition() {
+                                            DocID = docid,
+                                            WordBegPosition = (uint)tbeg,
+                                            WordEndPosition = (uint)tend
+                                });
                             }
                         }
                     }
@@ -61,6 +72,8 @@ namespace SearchCore
                 '`', '!', '@', '#', '$', '%', '^', '&', '*', '<', '>', '?', '/', ':', '\'',
                 '\"', ';'
             };
+
+            private SearchTopology _topology;
         }
     }
 }

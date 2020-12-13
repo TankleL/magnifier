@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using SearchCore;
 using SearchCore.Index;
@@ -19,7 +20,7 @@ namespace searchcore_testhost
 
         static void test_crawl(SearchCore.SearchCore core)
         {
-            var crawler = core.TestGetCrawlerModule();
+            var crawler = core.Topology.GetNode_LoadBalanced<SearchCore.Crawler.ContentDiscoveryModule>(ISearchTopologyNode.NodeType.Crawler);
             crawler.StartLocalFileCrawl(new string[] { Path.GetFullPath(@"..\..\..\prepspace2") });
 
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
@@ -27,8 +28,14 @@ namespace searchcore_testhost
 
         static void test_index(SearchCore.SearchCore core)
         {
-            var index = core.TestGetIndexModule();
+            var index = core.Topology.GetNode_LoadBalanced<SearchCore.Index.IndexModule>(ISearchTopologyNode.NodeType.Index);
             core.TestWriteDisk();
+
+            IList<IndexDocPosition> res = new List<IndexDocPosition>();
+            index.Lookup(ref res, "findme");
+
+            res.Clear();
+            index.Lookup(ref res, "b2");
         }
     }
 }

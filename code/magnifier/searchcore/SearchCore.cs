@@ -11,30 +11,34 @@ namespace SearchCore
         {
             _root_path = root_path;
 
-            IngestPipeline.CrawlerModule = new Crawler.ContentDiscoveryModule();
-            IngestPipeline.ParserModule = new Parser.ContentProcessModule();
-            IngestPipeline.IndexModule = new Index.IndexModule(Path.Combine(_root_path, "index"), 2);
-            IngestPipeline.QueryModule = new Query.QueryModule();
+            // TODO: make below initialization works to be configurable 
+            _topology = new SearchTopology();
+            _topology.AddNode(new Crawler.ContentDiscoveryModule(_topology));
+            _topology.AddNode(new Parser.ContentProcessModule(_topology));
+            _topology.AddNode(new Index.IndexModule(Path.Combine(_root_path, "index"), 1));
+            _topology.AddNode(new Query.QueryModule());
+            _topology.AddNode(new DocsManagement.DocsModule());
+        }
+
+        public SearchTopology Topology
+        {
+            get
+            {
+                return _topology;
+            }
         }
 
         public void Kill()
         { }
 
-        public Index.IndexModule TestGetIndexModule()
-        {
-            return IngestPipeline.IndexModule;
-        }
-
-        public Crawler.ContentDiscoveryModule TestGetCrawlerModule()
-        {
-            return IngestPipeline.CrawlerModule;
-        }
-
         public void TestWriteDisk()
         {
-            IngestPipeline.IndexModule.WriteToDisk();
+            _topology.ForEachNode(ISearchTopologyNode.NodeType.Index, node => {
+                (node as Index.IndexModule).WriteToDisk();
+            });
         }
 
+        private SearchTopology _topology;
         private string _root_path;
     }
 }

@@ -160,6 +160,26 @@ namespace SearchCore
                 }
             }
 
+            public bool LookupRecord(ref IList<IndexDocPosition> results, string keyword)
+            {
+                IndexRecord record;
+                if(_records.TryGetValue(keyword, out record))
+                {
+                    foreach(var doc in record.Positions)
+                    {
+                        foreach(var pos in doc.Value)
+                        {
+                            results.Add(pos.Value);
+                        }
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             private UInt32 _partition;
             private string _filename;
             private bool _dirty = false;

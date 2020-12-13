@@ -6,18 +6,19 @@ namespace SearchCore
 {
     namespace Crawler
     {
-        public class ContentDiscoveryModule
+        public class ContentDiscoveryModule : ISearchTopologyNode
         {
-            public ContentDiscoveryModule()
+            public ContentDiscoveryModule(SearchTopology topology)
             {
+                _topology = topology;
                 _top_jobid = 0;
             }
-                
-            public void ConnectContentProcessModule(Parser.ContentProcessModule module)
-            {
-                _parser_mode = module;
-            }
 
+            public ISearchTopologyNode.NodeType GetNodeType()
+            {
+                return ISearchTopologyNode.NodeType.Crawler;
+            }
+                
             public void StartLocalFileCrawl(IEnumerable<string> start_addrs)
             {
                 var job = new CrawlJob(++_top_jobid);
@@ -27,7 +28,7 @@ namespace SearchCore
 
                 foreach(var addr in start_addrs)
                 {
-                    job.AddTask(new LocalFileCrawlTask(addr));
+                    job.AddTask(new LocalFileCrawlTask(addr, _topology));
                 }
 
                 job.Start();
@@ -35,7 +36,7 @@ namespace SearchCore
 
             private Dictionary<uint, CrawlJob> _jobs = new Dictionary<uint, CrawlJob>();
             private uint _top_jobid;
-            private Parser.ContentProcessModule _parser_mode;
+            private SearchTopology _topology;
         }
     }
 }

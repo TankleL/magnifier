@@ -8,24 +8,23 @@ namespace SearchCore
 {
     namespace Index
     {
-        public class IndexLookupRecord
-        { }
-
-        public class IndexLookupRecordCollection
+        public class IndexModule : ISearchTopologyNode
         {
-        }
+            public ISearchTopologyNode.NodeType GetNodeType()
+            {
+                return ISearchTopologyNode.NodeType.Index;
+            }
 
-        public class IndexModule
-        {
             public IndexModule(string root_index_path, UInt32 partition_count)
             {
                 InitDirectory(root_index_path);
                 InitIndexTables(partition_count);
             }
 
-            public IndexLookupRecordCollection Lookup(string keyword)
+            public bool Lookup(ref IList<IndexDocPosition> resutls, string keyword)
             {
-                return null;
+                var pt = GetPartition(keyword);
+                return _tables[pt].LookupRecord(ref resutls, keyword);
             }
 
             public void Insert(string keyword, IndexDocPosition docpos)
@@ -51,7 +50,7 @@ namespace SearchCore
 
             private UInt32 GetPartition(string keyword)
             {
-                return (UInt32)(keyword.GetHashCode()) % _partition_count;
+                return ((UInt32)(Math.Abs(keyword.GetHashCode()))) % _partition_count;
             }
 
             private void InitDirectory(string dirpath)
@@ -68,6 +67,7 @@ namespace SearchCore
 
             private void InitIndexTables(UInt32 count)
             {
+                _partition_count = count;
                 for (UInt32 i = 0; i < count; ++i)
                 {
                     var tbl = new IndexTable(i);
